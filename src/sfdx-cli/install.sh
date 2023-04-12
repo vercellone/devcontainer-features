@@ -76,8 +76,9 @@ chown -R "${USERNAME}:sfdx" ${SFDX_ROOT}
 chmod -R g+r+w ${SFDX_ROOT}
 ls ${SFDX_ROOT}/bin -al
 # curl -sL https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.gz | tar -xzC /usr/local 2>&1
-export PATH=/usr/local/sfdx/bin:$PATH
+
 PATH=/usr/local/sfdx/bin:$PATH
+export PATH=$PATH
 echo $PATH
 
 sfdx version
