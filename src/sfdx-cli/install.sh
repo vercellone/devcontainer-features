@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-SFDX_TAR_URL=${URL:-"https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.gz"}
+SFDX_ROOT=/usr/local/sfdx
+SFDX_TAR=${URL:-"https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.gz"}
+USERNAME="${USERNAME:-"${_REMOTE_USER:-"automatic"}"}"
 
 set -e
 
@@ -11,6 +13,28 @@ rm -rf /var/lib/apt/lists/*
 if [ "$(id -u)" -ne 0 ]; then
     echo -e 'Script must be run as root. Use sudo, su, or add "USER root" to your Dockerfile before running this script.'
     exit 1
+fi
+
+# Ensure that login shells get the correct path if the user updated the PATH using ENV.
+rm -f /etc/profile.d/00-restore-env.sh
+echo "export PATH=${PATH//$(sh -lc 'echo $PATH')/\$PATH}" > /etc/profile.d/00-restore-env.sh
+chmod +x /etc/profile.d/00-restore-env.sh
+
+# Determine the appropriate non-root user
+if [ "${USERNAME}" = "auto" ] || [ "${USERNAME}" = "automatic" ]; then
+    aUSERNAME=""
+    POSSIBLE_USERS=("vscode" "node" "codespace" "$(awk -v val=1000 -F ":" '$3==val{print $1}' /etc/passwd)")
+    for CURRENT_USER in "${POSSIBLE_USERS[@]}"; do
+        if id -u ${CURRENT_USER} > /dev/null 2>&1; then
+            USERNAME=${CURRENT_USER}
+            break
+        fi
+    done
+    if [ "${USERNAME}" = "" ]; then
+        USERNAME=root
+    fi
+elif [ "${USERNAME}" = "none" ] || ! id -u ${USERNAME} > /dev/null 2>&1; then
+    USERNAME=root
 fi
 
 apt_get_update()
@@ -32,27 +56,25 @@ check_packages() {
 export DEBIAN_FRONTEND=noninteractive
 
 # Install curl, tar, git, other dependencies if missing
-check_packages curl ca-certificates gnupg2 tar
+check_packages curl ca-certificates tar
 
-# architecture="$(uname -m)"
-# case $architecture in
-#     x86_64) architecture="amd64";;
-#     aarch64 | armv8*) architecture="arm64";;
-#     aarch32 | armv7* | armvhf*) architecture="armv6l";;
-#     i?86) architecture="386";;
-#     *) echo "(!) Architecture $architecture unsupported"; exit 1 ;;
-# esac
+# Create sfdx group to the user's UID or GID to change while still allowing access to sfdx
+if ! cat /etc/group | grep -e "^sfdx:" > /dev/null 2>&1; then
+    groupadd -r sfdx
+fi
+usermod -a -G sfdx ${USERNAME}
 
 # See if we're on x86_64 and if so, install via apt-get, otherwise use pip3
 echo "(*) Installing Salesforce CLI..."
-echo "   from ${SFDX_TAR_URL}"
-mkdir -p /usr/local/sfdx
-curl -fsSL -o /tmp/sfdx.tar.gz "${SFDX_TAR_URL}"
-tar -xzf /tmp/sfdx.tar.gz -C "/usr/local/sfdx" --strip-components=1
+echo "   from ${SFDX_TAR}"
+
+mkdir -p ${SFDX_ROOT}
+curl -fsSL -o /tmp/sfdx.tar.gz "${SFDX_TAR}"
+tar -xzf /tmp/sfdx.tar.gz -C "${SFDX_ROOT}" --strip-components=1
 rm -rf /tmp/sfdx.tar.gz
-ls /usr/local/sfdx/bin -al
-# chmod 0755 /usr/local/sfdx/bin/sf
-# chmod 0755 /usr/local/sfdx/bin/sfdx
+chown -R "${USERNAME}:sfdx" ${SFDX_ROOT}
+chmod -R g+r+w ${SFDX_ROOT}
+ls ${SFDX_ROOT}/bin -al
 # curl -sL https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.gz | tar -xzC /usr/local 2>&1
 export PATH=/usr/local/sfdx/bin:$PATH
 PATH=/usr/local/sfdx/bin:$PATH
