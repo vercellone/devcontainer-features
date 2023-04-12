@@ -9,7 +9,7 @@ SFDX_TAR_URL=${URL:-"https://developer.salesforce.com/media/salesforce-cli/sfdx/
 echo "(*) Installing Salesforce CLI..."
 
 curl -sL ${SFDX_TAR_URL} | tar -xzC /usr/local 2>&1
-curl -sL https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.gz | tar -xzC /usr/local 2>&1
+# curl -sL https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.gz | tar -xzC /usr/local 2>&1
 
 export PATH=/usr/local/sfdx/bin:$PATH
 PATH=/usr/local/sfdx/bin:$PATH
