@@ -5,6 +5,9 @@ USERNAME="${USERNAME:-"${_REMOTE_USER:-"automatic"}"}"
 
 set -e
 
+echo "The effective dev container remoteUser is '$_REMOTE_USER'"
+echo "The effective dev container remoteUser's home directory is '$_REMOTE_USER_HOME'"
+
 echo "Activating feature 'sfdx-cli'"
 
 # Clean up
