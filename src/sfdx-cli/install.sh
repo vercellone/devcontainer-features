@@ -3,12 +3,6 @@ SFDX_ROOT=/usr/local/sfdx
 SFDX_TAR=${URL:-"https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.gz"}
 USERNAME="${_CONTAINER_USER:-"automatic"}"
 
-echo "The effective dev container remoteUser is '$_REMOTE_USER'"
-echo "The effective dev container remoteUser's home directory is '$_REMOTE_USER_HOME'"
-
-echo "The effective dev container containerUser is '$_CONTAINER_USER'"
-echo "The effective dev container containerUser's home directory is '$_CONTAINER_USER_HOME'"
-
 set -e
 
 echo "Activating feature 'sfdx-cli'"
@@ -80,14 +74,7 @@ tar -xzf /tmp/sfdx.tar.gz -C "${SFDX_ROOT}" --strip-components=1
 rm -rf /tmp/sfdx.tar.gz
 chown -R "${USERNAME}:sfdx" ${SFDX_ROOT}
 chmod -R g+r+w ${SFDX_ROOT}
-ls ${SFDX_ROOT}/bin -al
-# curl -sL https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.gz | tar -xzC /usr/local 2>&1
-
 PATH=/usr/local/sfdx/bin:$PATH
-export PATH=$PATH
-echo $PATH
-
-sfdx version
 
 # Clean up
 rm -rf /var/lib/apt/lists/*

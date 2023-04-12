@@ -11,8 +11,11 @@
                 "https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.gz"
             ],
             "default": "https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.gz",
-            "description": "URL of TAR File."
+            "description": "URL of TAR File. Refer to https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm#sfdx_setup_install_cli_linux for options."
         }
+    },
+    "containerEnv": {
+        "PATH": "usr/local/sfdx/bin:${PATH}"
     },
     "installsAfter": [
         "ghcr.io/devcontainers/features/common-utils"
