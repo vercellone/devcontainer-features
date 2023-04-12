@@ -5,9 +5,6 @@ USERNAME="${USERNAME:-"${_REMOTE_USER:-"automatic"}"}"
 
 set -e
 
-echo "The effective dev container remoteUser is '$_REMOTE_USER'"
-echo "The effective dev container remoteUser's home directory is '$_REMOTE_USER_HOME'"
-
 echo "Activating feature 'sfdx-cli'"
 
 # Clean up
@@ -25,7 +22,7 @@ chmod +x /etc/profile.d/00-restore-env.sh
 
 # Determine the appropriate non-root user
 if [ "${USERNAME}" = "auto" ] || [ "${USERNAME}" = "automatic" ]; then
-    aUSERNAME=""
+    USERNAME=""
     POSSIBLE_USERS=("vscode" "node" "codespace" "$(awk -v val=1000 -F ":" '$3==val{print $1}' /etc/passwd)")
     for CURRENT_USER in "${POSSIBLE_USERS[@]}"; do
         if id -u ${CURRENT_USER} > /dev/null 2>&1; then
@@ -81,6 +78,9 @@ ls ${SFDX_ROOT}/bin -al
 # curl -sL https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.gz | tar -xzC /usr/local 2>&1
 export PATH=/usr/local/sfdx/bin:$PATH
 PATH=/usr/local/sfdx/bin:$PATH
+echo $PATH
+
+sfdx version
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
