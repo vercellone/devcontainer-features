@@ -15,7 +15,7 @@
         }
     },
     "containerEnv": {
-        "PATH": "usr/local/sfdx/bin:${PATH}"
+        "PATH": "/usr/local/sfdx/bin:${PATH}"
     },
     "installsAfter": [
         "ghcr.io/devcontainers/features/common-utils"
