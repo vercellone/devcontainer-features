@@ -46,9 +46,13 @@ check_packages curl ca-certificates gnupg2 tar
 # See if we're on x86_64 and if so, install via apt-get, otherwise use pip3
 echo "(*) Installing Salesforce CLI..."
 echo "   from ${SFDX_TAR_URL}"
+mkdir -p /usr/local/sfdx
 curl -fsSL -o /tmp/sfdx.tar.gz "${SFDX_TAR_URL}"
 tar -xzf /tmp/sfdx.tar.gz -C "/usr/local/sfdx" --strip-components=1
 rm -rf /tmp/sfdx.tar.gz
+ls /usr/local/sfdx/bin -al
+# chmod 0755 /usr/local/sfdx/bin/sf
+# chmod 0755 /usr/local/sfdx/bin/sfdx
 # curl -sL https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.gz | tar -xzC /usr/local 2>&1
 export PATH=/usr/local/sfdx/bin:$PATH
 PATH=/usr/local/sfdx/bin:$PATH
