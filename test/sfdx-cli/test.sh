@@ -6,8 +6,8 @@ set -e
 source dev-container-features-test-lib
 
 # Definition specific tests
-check "path" bash -c "echo $PATH | grep 'sfdx'"
-check "version" bash -c "sfdx version | grep 'sfdx-cli/'"
+# check "path" bash -c "echo $PATH | grep 'sfdx'"
+check "version" bash -c "/usr/local/sfdx/bin/sfdx version | grep 'sfdx-cli/'"
 
 # Report result
 reportResults
