@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 SFDX_ROOT=/usr/local/sfdx
 SFDX_TAR=${URL:-"https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.gz"}
-USERNAME="${USERNAME:-"${_REMOTE_USER:-"automatic"}"}"
+USERNAME="${_CONTAINER_USER:-"automatic"}"
+
+echo "The effective dev container remoteUser is '$_REMOTE_USER'"
+echo "The effective dev container remoteUser's home directory is '$_REMOTE_USER_HOME'"
+
+echo "The effective dev container containerUser is '$_CONTAINER_USER'"
+echo "The effective dev container containerUser's home directory is '$_CONTAINER_USER_HOME'"
 
 set -e
 
