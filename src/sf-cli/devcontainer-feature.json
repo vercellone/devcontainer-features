@@ -1,0 +1,24 @@
+{
+    "id": "sf-cli",
+    "name": "Salesforce CLI (sf)",
+    "version": "1.0.0",
+    "documentationURL": "https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm",
+    "description": "Installs the Salesforce CLI (sf), the next-generation Salesforce CLI (v2+).",
+    "options": {
+        "version": {
+            "type": "string",
+            "proposals": [
+                "latest",
+                "stable"
+            ],
+            "default": "latest",
+            "description": "Version/channel to install. 'latest' and 'stable' both install the latest stable release from the Salesforce stable channel."
+        }
+    },
+    "containerEnv": {
+        "PATH": "/usr/local/sf/bin:${PATH}"
+    },
+    "installsAfter": [
+        "ghcr.io/devcontainers/features/common-utils"
+    ]
+}
