@@ -15,7 +15,7 @@ Installs the Salesforce CLI (`sf`), the next-generation Salesforce CLI (v2+).
 
 | Options Id | Description | Type | Default Value |
 |-----|-----|-----|-----|
-| version | Version/channel to install. 'latest' and 'stable' both install the latest stable release from the Salesforce stable channel. | string | latest |
+| version | Version/channel to install. 'latest' installs the latest stable release from the Salesforce stable channel. | string | latest |
 
 ## OS Support
 

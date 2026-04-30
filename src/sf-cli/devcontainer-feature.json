@@ -8,11 +8,10 @@
         "version": {
             "type": "string",
             "proposals": [
-                "latest",
-                "stable"
+                "latest"
             ],
             "default": "latest",
-            "description": "Version/channel to install. 'latest' and 'stable' both install the latest stable release from the Salesforce stable channel."
+            "description": "Version/channel to install. 'latest' installs the latest stable release from the Salesforce stable channel."
         }
     },
     "containerEnv": {

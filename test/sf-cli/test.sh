@@ -6,7 +6,7 @@ set -e
 source dev-container-features-test-lib
 
 # Definition specific tests
-check "version" sf version | grep '@salesforce/cli/'
+check "version" bash -c "sf version | grep '@salesforce/cli/'"
 
 # Report result
 reportResults
