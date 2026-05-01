@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-SFDX_ROOT=/usr/local/sfdx
-SFDX_TAR=${URL:-"https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.gz"}
+SF_ROOT=/usr/local/sf
+VERSION="${VERSION:-"latest"}"
 USERNAME="${_CONTAINER_USER:-"automatic"}"
 
 set -e
 
-echo "Activating feature 'sfdx-cli'"
+echo "Activating feature 'sf-cli'"
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
@@ -55,26 +55,44 @@ check_packages() {
 
 export DEBIAN_FRONTEND=noninteractive
 
-# Install curl, tar, git, other dependencies if missing
+# Install curl, tar, and other dependencies if missing
 check_packages curl ca-certificates tar
 
-# Create sfdx group to the user's UID or GID to change while still allowing access to sfdx
-if ! cat /etc/group | grep -e "^sfdx:" > /dev/null 2>&1; then
-    groupadd -r sfdx
+# Detect architecture
+ARCH=$(uname -m)
+case "${ARCH}" in
+    x86_64)  SF_ARCH="x64" ;;
+    aarch64) SF_ARCH="arm64" ;;
+    *)
+        echo "Unsupported architecture: ${ARCH}"
+        exit 1
+        ;;
+esac
+
+# Resolve the download URL from the Salesforce stable channel
+SF_TAR="https://developer.salesforce.com/media/salesforce-cli/sf/channels/stable/sf-linux-${SF_ARCH}.tar.gz"
+
+# Create sf group to the user's UID or GID to change while still allowing access to sf
+if ! cat /etc/group | grep -e "^sf:" > /dev/null 2>&1; then
+    groupadd -r sf
 fi
-usermod -a -G sfdx ${USERNAME}
+usermod -a -G sf ${USERNAME}
 
-# See if we're on x86_64 and if so, install via apt-get, otherwise use pip3
-echo "(*) Installing Salesforce sfdx CLI..."
-echo "   from ${SFDX_TAR}"
+echo "(*) Installing Salesforce sf CLI..."
+echo "   architecture: ${ARCH} (${SF_ARCH})"
+echo "   from ${SF_TAR}"
 
-mkdir -p ${SFDX_ROOT}
-curl -fsSL -o /tmp/sfdx.tar.gz "${SFDX_TAR}"
-tar -xzf /tmp/sfdx.tar.gz -C "${SFDX_ROOT}" --strip-components=1
-rm -rf /tmp/sfdx.tar.gz
-chown -R "${USERNAME}:sfdx" ${SFDX_ROOT}
-chmod -R g+r+w ${SFDX_ROOT}
-PATH=/usr/local/sfdx/bin:$PATH
+# Idempotent: remove any previous installation before extracting
+rm -rf "${SF_ROOT}"
+mkdir -p "${SF_ROOT}"
+
+curl -fsSL -o /tmp/sf.tar.gz "${SF_TAR}"
+tar -xzf /tmp/sf.tar.gz -C "${SF_ROOT}" --strip-components=1
+rm -f /tmp/sf.tar.gz
+
+chown -R "${USERNAME}:sf" "${SF_ROOT}"
+chmod -R g+r+w "${SF_ROOT}"
+PATH=/usr/local/sf/bin:$PATH
 
 # Clean up
 rm -rf /var/lib/apt/lists/*

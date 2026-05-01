@@ -1,6 +1,25 @@
+### `sf-cli`
+
+Installs the next-generation Salesforce sf CLI. Running `sf version` inside the built container will print the sf binary version.
+
+```jsonc
+{
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "features": {
+        "ghcr.io/vercellone/devcontainer-features/sf-cli:1": {}
+    }
+}
+```
+
+```bash
+$ sf version
+
+@salesforce/cli/2.x.x linux-x64 node-v18.x.x
+```
+
 ### `sfdx-cli`
 
-Running `sfdx version` inside the built container will print the sfdx binary version.
+Installs the legacy (deprecated) Salesforce sfdx CLI. Running `sfdx version` inside the built container will print the sfdx binary version.
 
 ```jsonc
 {
