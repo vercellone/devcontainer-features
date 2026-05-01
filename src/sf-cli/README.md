@@ -1,7 +1,7 @@
 
-# Salesforce sf CLI
+# Salesforce sf CLI (sf-cli)
 
-Installs the Salesforce sf CLI (sfdx replacement).
+Installs the Salesforce sf CLI. (sfdx replacement)
 
 ## Example Usage
 

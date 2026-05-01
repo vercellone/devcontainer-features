@@ -1,5 +1,5 @@
 
-# Salesforce sfdx CLI
+# Salesforce sfdx CLI (sfdx-cli)
 
 Installs the Salesforce sfdx CLI.
 
