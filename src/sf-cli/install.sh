@@ -78,7 +78,7 @@ if ! cat /etc/group | grep -e "^sf:" > /dev/null 2>&1; then
 fi
 usermod -a -G sf ${USERNAME}
 
-echo "(*) Installing Salesforce CLI (sf)..."
+echo "(*) Installing Salesforce sf CLI..."
 echo "   architecture: ${ARCH} (${SF_ARCH})"
 echo "   from ${SF_TAR}"
 

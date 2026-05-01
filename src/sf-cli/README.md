@@ -1,7 +1,7 @@
 
-# Salesforce CLI (sf-cli)
+# Salesforce sf CLI
 
-Installs the Salesforce CLI (`sf`), the next-generation Salesforce CLI (v2+).
+Installs the Salesforce sf CLI (sfdx replacement).
 
 ## Example Usage
 

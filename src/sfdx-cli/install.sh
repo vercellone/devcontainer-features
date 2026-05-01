@@ -65,7 +65,7 @@ fi
 usermod -a -G sfdx ${USERNAME}
 
 # See if we're on x86_64 and if so, install via apt-get, otherwise use pip3
-echo "(*) Installing Salesforce CLI..."
+echo "(*) Installing Salesforce sfdx CLI..."
 echo "   from ${SFDX_TAR}"
 
 mkdir -p ${SFDX_ROOT}

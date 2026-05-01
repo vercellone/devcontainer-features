@@ -1,7 +1,7 @@
 
-# Salesforce CLI (sfdx-cli)
+# Salesforce sfdx CLI
 
-Installs the Salesforce CLI.
+Installs the Salesforce sfdx CLI.
 
 ## Example Usage
 

@@ -1,6 +1,6 @@
 ### `sf-cli`
 
-Installs the next-generation Salesforce CLI (`sf`, v2+). Running `sf version` inside the built container will print the sf binary version.
+Installs the next-generation Salesforce sf CLI. Running `sf version` inside the built container will print the sf binary version.
 
 ```jsonc
 {
@@ -19,7 +19,7 @@ $ sf version
 
 ### `sfdx-cli`
 
-Installs the legacy Salesforce CLI (`sfdx`, v7). Running `sfdx version` inside the built container will print the sfdx binary version.
+Installs the legacy (deprecated) Salesforce sfdx CLI. Running `sfdx version` inside the built container will print the sfdx binary version.
 
 ```jsonc
 {
